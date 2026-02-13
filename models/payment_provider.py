@@ -96,6 +96,8 @@ class PaymentProvider(models.Model):
         self.ensure_one()
         if self.code != 'myfatoorah':
             return super()._get_default_payment_method_codes()
+        # MyFatoorah acts as a redirect gateway that handles various methods (Card, Apple Pay, etc.)
+        # Odoo 19 typically treats this as 'card' or custom. 'card' is the standard for generic gateways.
         return {'card'}
 
     # === API HELPERS === #
