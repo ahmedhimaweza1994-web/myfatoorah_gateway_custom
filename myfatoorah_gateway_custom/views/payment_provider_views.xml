@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Inherit payment.provider form view to add MyFatoorah credential fields -->
+    <record id="payment_provider_form_myfatoorah" model="ir.ui.view">
+        <field name="name">payment.provider.form.myfatoorah</field>
+        <field name="model">payment.provider</field>
+        <field name="inherit_id" ref="payment.payment_provider_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Add MyFatoorah credentials in the credentials page -->
+            <xpath expr="//page[@name='credentials']" position="inside">
+                <group name="myfatoorah_credentials"
+                       string="MyFatoorah Credentials"
+                       invisible="code != 'myfatoorah'">
+                    <field name="myfatoorah_secret_key"
+                           string="Live Secret Key"
+                           password="True"
+                           required="code == 'myfatoorah' and state == 'enabled'"/>
+                    <field name="myfatoorah_test_secret_key"
+                           string="Test Secret Key"
+                           password="True"
+                           required="code == 'myfatoorah' and state == 'test'"/>
+                    <field name="myfatoorah_country_code"
+                           string="Country"
+                           required="code == 'myfatoorah'"/>
+                </group>
+            </xpath>
+
+            <!-- Add MyFatoorah webhook settings in the configuration page -->
+            <xpath expr="//page[@name='configuration']" position="inside">
+                <group name="myfatoorah_webhook"
+                       string="MyFatoorah Webhook Settings"
+                       invisible="code != 'myfatoorah'">
+                    <field name="myfatoorah_webhook_enabled"/>
+                    <field name="myfatoorah_webhook_secret"
+                           string="Webhook Secret Key"
+                           password="True"
+                           invisible="not myfatoorah_webhook_enabled"/>
+                </group>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

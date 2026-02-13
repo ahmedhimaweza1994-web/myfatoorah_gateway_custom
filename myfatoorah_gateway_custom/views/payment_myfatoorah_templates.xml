@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Redirect form template for MyFatoorah.
+        This is referenced by the payment.provider's redirect_form_view_id.
+        It auto-submits a redirect to the MyFatoorah invoice URL.
+    -->
+    <record id="myfatoorah_redirect_form" model="ir.ui.view">
+        <field name="name">myfatoorah.redirect.form</field>
+        <field name="type">qweb</field>
+        <field name="arch" type="xml">
+            <div>
+                <div class="text-center">
+                    <div class="mb-3">
+                        <i class="fa fa-spinner fa-spin fa-3x text-primary"/>
+                    </div>
+                    <h4>Redirecting to MyFatoorah...</h4>
+                    <p class="text-muted">
+                        You will be redirected to the MyFatoorah secure payment page.
+                        If you are not redirected automatically,
+                        <a t-att-href="api_url">click here</a>.
+                    </p>
+                </div>
+
+                <!-- Hidden form that auto-submits the redirect -->
+                <form t-att-action="api_url" method="get">
+                    <input type="hidden" name="reference" t-att-value="reference"/>
+                </form>
+
+                <script type="text/javascript">
+                    // Auto-redirect to MyFatoorah payment page
+                    var redirectUrl = document.querySelector('form').getAttribute('action');
+                    if (redirectUrl) {
+                        window.location.href = redirectUrl;
+                    }
+                </script>
+            </div>
+        </field>
+    </record>
+
+</odoo>
